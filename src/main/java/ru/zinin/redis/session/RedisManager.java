@@ -31,7 +31,6 @@ import redis.clients.jedis.Protocol;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.IOException;
