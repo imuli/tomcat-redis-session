@@ -1,5 +1,7 @@
 # Tomcat Redis Session
 
+Fork from [zinin/tomcat-redis-session] in order to support Tomcat 8
+
 ## Introduction
 Tomcat Redis Session is an implementation of
 [Tomcat Manager Component](http://tomcat.apache.org/tomcat-7.0-doc/config/manager.html)
