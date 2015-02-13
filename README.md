@@ -35,19 +35,19 @@ See our [Embedded example](https://github.com/zinin/tomcat-redis-session-example
 Add tomcat-redis-session as maven dependency:
 
 ```xml
-    <dependency>
-        <groupId>ru.zinin</groupId>
-        <artifactId>tomcat-redis-session</artifactId>
-        <version>0.7</version>
-    </dependency>
+<dependency>
+    <groupId>com.github.jkutner</groupId>
+    <artifactId>tomcat-redis-session</artifactId>
+    <version>8.0.18.0</version>
+</dependency>
 ```
 
 Use it:
     
 ```java
-    RedisManager redisManager = new RedisManager();
-    redisManager.setDisableListeners(true);
-    ctx.setManager(redisManager);
+RedisManager redisManager = new RedisManager();
+redisManager.setDisableListeners(true);
+ctx.setManager(redisManager);
 ```
 
 ## Contacts
