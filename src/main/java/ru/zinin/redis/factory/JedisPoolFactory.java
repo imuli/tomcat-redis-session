@@ -39,7 +39,7 @@ import java.util.Hashtable;
  * <li>database - connection timeout in ms, {@link redis.clients.jedis.Protocol#DEFAULT_DATABASE} by default</li>
  * <li>password - redis server password</li>
  * </ul>
- * <p/>
+ *
  * <p>Date: 30.10.11 22:15</p>
  *
  * @author Alexander V. Zinin (mail@zinin.ru)
