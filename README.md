@@ -38,7 +38,7 @@ Add tomcat-redis-session as maven dependency:
 <dependency>
     <groupId>com.github.jkutner</groupId>
     <artifactId>tomcat-redis-session</artifactId>
-    <version>8.0.18.0</version>
+    <version>8.5.5.0</version>
 </dependency>
 ```
 

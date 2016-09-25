@@ -10,7 +10,7 @@
   <artifactId>tomcat-redis-session</artifactId>
   <packaging>jar</packaging>
   <name>Redis HttpSession for Tomcat</name>
-  <version>8.0.18.2-SNAPSHOT</version>
+  <version>8.5.5.0-SNAPSHOT</version>
   <description>Redis HttpSession Implementation for Tomcat</description>
   <url>https://github.com/jkutner/tomcat-redis-session</url>
 
@@ -46,23 +46,28 @@
   </developers>
 
   <properties>
-    <source.plugin.version>2.1.2</source.plugin.version>
-    <gpg.plugin.version>1.2</gpg.plugin.version>
-    <javadoc.plugin.version>2.7</javadoc.plugin.version>
-    <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
-    <tomcat.version>8.0.18</tomcat.version>
+    <commons-pool2.version>2.4.2</commons-pool2.version>
+    <compiler.plugin.version>3.5.1</compiler.plugin.version>
+    <gpg.plugin.version>1.6</gpg.plugin.version>
+    <javadoc.plugin.version>2.10.4</javadoc.plugin.version>
+    <jedis.version>2.9.0</jedis.version>
+    <nexus-staging.plugin.version>1.6.7</nexus-staging.plugin.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <release.plugin.version>2.5.3</release.plugin.version>
+    <source.plugin.version>3.0.1</source.plugin.version>
+    <tomcat.version>8.5.5</tomcat.version>
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>redis.clients</groupId>
       <artifactId>jedis</artifactId>
-      <version>2.6.2</version>
+      <version>${jedis.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-pool2</artifactId>
-      <version>2.3</version>
+      <version>${commons-pool2.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.tomcat</groupId>
@@ -88,7 +93,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
+        <version>${compiler.plugin.version}</version>
         <configuration>
           <source>1.7</source>
           <target>1.7</target>
@@ -97,7 +102,7 @@
       <plugin>
         <groupId>org.sonatype.plugins</groupId>
         <artifactId>nexus-staging-maven-plugin</artifactId>
-        <version>1.6.3</version>
+        <version>${nexus-staging.plugin.version}</version>
         <extensions>true</extensions>
         <configuration>
           <serverId>ossrh</serverId>
@@ -107,7 +112,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-release-plugin</artifactId>
-        <version>2.5.1</version>
+        <version>${release.plugin.version}</version>
         <configuration>
           <autoVersionSubmodules>true</autoVersionSubmodules>
           <useReleaseProfile>false</useReleaseProfile>
