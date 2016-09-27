@@ -18,8 +18,6 @@ package ru.zinin.redis.session;
 
 import org.apache.catalina.Context;
 import org.apache.catalina.core.StandardContext;
-import org.apache.catalina.session.Constants;
-import org.apache.jasper.util.ExceptionUtils;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.apache.tomcat.util.res.StringManager;
@@ -43,7 +41,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class RedisEventListenerThread implements Runnable {
     private final Log log = LogFactory.getLog(RedisEventListenerThread.class);
 
-    private static final StringManager sm = StringManager.getManager(Constants.Package);
+    private static final StringManager sm = StringManager.getManager("ru.zinin.redis.session");
 
     private RedisManager manager;
 
@@ -158,7 +156,7 @@ public class RedisEventListenerThread implements Runnable {
 
                     fireContainerEvent(context, "afterSessionCreated", listener);
                 } catch (Throwable t) {
-                    ExceptionUtils.handleThrowable(t);
+                    handleThrowable(t);
                     try {
                         fireContainerEvent(context, "afterSessionCreated", listener);
                     } catch (Exception e) {
@@ -193,7 +191,7 @@ public class RedisEventListenerThread implements Runnable {
 
                     fireContainerEvent(context, "afterSessionDestroyed", listener);
                 } catch (Throwable t) {
-                    ExceptionUtils.handleThrowable(t);
+                    handleThrowable(t);
                     try {
                         fireContainerEvent(context, "afterSessionDestroyed", listener);
                     } catch (Exception e) {
@@ -224,7 +222,7 @@ public class RedisEventListenerThread implements Runnable {
                     listener.attributeAdded(event);
                     fireContainerEvent(context, "afterSessionAttributeAdded", listener);
                 } catch (Throwable t) {
-                    ExceptionUtils.handleThrowable(t);
+                    handleThrowable(t);
                     try {
                         fireContainerEvent(context, "afterSessionAttributeAdded", listener);
                     } catch (Exception e) {
@@ -255,7 +253,7 @@ public class RedisEventListenerThread implements Runnable {
                     listener.attributeRemoved(event);
                     fireContainerEvent(context, "afterSessionAttributeRemoved", listener);
                 } catch (Throwable t) {
-                    ExceptionUtils.handleThrowable(t);
+                    handleThrowable(t);
                     try {
                         fireContainerEvent(context, "afterSessionAttributeRemoved", listener);
                     } catch (Exception e) {
@@ -286,7 +284,7 @@ public class RedisEventListenerThread implements Runnable {
                     listener.attributeReplaced(event);
                     fireContainerEvent(context, "afterSessionAttributeReplaced", listener);
                 } catch (Throwable t) {
-                    ExceptionUtils.handleThrowable(t);
+                    handleThrowable(t);
                     try {
                         fireContainerEvent(context, "afterSessionAttributeReplaced", listener);
                     } catch (Exception e) {
@@ -295,6 +293,15 @@ public class RedisEventListenerThread implements Runnable {
                     manager.getContext().getLogger().error(sm.getString("standardSession.attributeEvent"), t);
                 }
             }
+        }
+    }
+
+    private void handleThrowable(Throwable t) {
+        if (t instanceof ThreadDeath) {
+            throw (ThreadDeath) t;
+        }
+        if (t instanceof VirtualMachineError) {
+            throw (VirtualMachineError) t;
         }
     }
 }

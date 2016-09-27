@@ -363,7 +363,7 @@ public class RedisHttpSession implements HttpSession, Session, Serializable {
 
         this.manager = (RedisManager) manager;
         this.pool = this.manager.getPool();
-        this.servletContext = ((Context) manager.getContainer()).getServletContext();
+        this.servletContext = manager.getContext().getServletContext();
         this.disableListeners = this.manager.isDisableListeners();
     }
 
@@ -646,7 +646,12 @@ public class RedisHttpSession implements HttpSession, Session, Serializable {
       }
     }
 
-  @Override
+    @Override
+    public boolean isAttributeDistributable(String s, Object o) {
+        return false;
+    }
+
+    @Override
     public int getMaxInactiveInterval() {
         log.trace("EXEC getMaxInactiveInterval();");
 

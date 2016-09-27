@@ -17,7 +17,6 @@
 package ru.zinin.redis.session;
 
 import org.apache.catalina.*;
-import org.apache.catalina.session.Constants;
 import org.apache.catalina.session.ManagerBase;
 import org.apache.catalina.util.SessionIdGeneratorBase;
 import org.apache.catalina.util.StandardSessionIdGenerator;
@@ -31,6 +30,7 @@ import redis.clients.jedis.Protocol;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.IOException;
@@ -44,10 +44,13 @@ import java.util.concurrent.Executors;
  * @author Alexander V. Zinin (mail@zinin.ru)
  */
 public class RedisManager extends ManagerBase implements Manager, PropertyChangeListener {
+
+    public static int SESSION_ID_LENGTH_UNSET = -1;
+
     private final Log log = LogFactory.getLog(RedisManager.class);
 
     private static final String info = "RedisManager/1.0";
-    private static final StringManager sm = StringManager.getManager(Constants.Package);
+    private static final StringManager sm = StringManager.getManager("ru.zinin.redis.session");
 
     private int maxInactiveInterval = 30 * 60;
     private int sessionIdLength = 32;
@@ -75,22 +78,6 @@ public class RedisManager extends ManagerBase implements Manager, PropertyChange
     @Override
     public String getName() {
       return info;
-    }
-
-    @Override
-    public boolean getDistributable() {
-        log.trace("EXEC getDistributable();");
-
-        return true;
-    }
-
-    @Override
-    public void setDistributable(boolean distributable) {
-        log.trace(String.format("EXEC setDistributable(%s);", distributable));
-
-        if (!distributable) {
-            log.error("Only distributable web applications supported.");
-        }
     }
 
     @Override
@@ -476,5 +463,10 @@ public class RedisManager extends ManagerBase implements Manager, PropertyChange
         }
 
         pool.destroy();
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+
     }
 }
