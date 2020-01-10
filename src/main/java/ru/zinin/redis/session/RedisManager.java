@@ -294,49 +294,6 @@ public class RedisManager extends ManagerBase implements Manager, PropertyChange
         log.trace("EXEC unload();");
     }
 
-    @Override
-    public void backgroundProcess() {
-        log.trace("EXEC backgroundProcess();");
-
-        long max = System.currentTimeMillis() - (maxInactiveInterval * 1000);
-        Set<String> sessionIds;
-
-        Jedis jedis = pool.getResource();
-        try {
-            sessionIds = jedis.zrangeByScore(RedisSessionKeys.getSessionsKey(), 0, max);
-
-            pool.returnResource(jedis);
-        } catch (Throwable e) {
-            pool.returnBrokenResource(jedis);
-            throw new RuntimeException(e);
-        }
-
-        log.debug(sessionIds.size() + " sessions expired.");
-
-        Set<String> removedIds = new HashSet<String>();
-        if (!sessionIds.isEmpty()) {
-            jedis = pool.getResource();
-            try {
-                for (String sessionId : sessionIds) {
-                    if (jedis.zrem(RedisSessionKeys.getSessionsKey(), sessionId) > 0) {
-                        removedIds.add(sessionId);
-                    }
-                }
-
-                pool.returnResource(jedis);
-            } catch (Throwable e) {
-                pool.returnBrokenResource(jedis);
-                throw new RuntimeException(e);
-            }
-
-            for (String sessionId : removedIds) {
-                RedisHttpSession session = new RedisHttpSession(sessionId, this);
-
-                session.expire();
-            }
-        }
-    }
-
     public String getJedisJndiName() {
         return jedisJndiName;
     }
